@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description"
+        content="Explore a curated art gallery featuring contemporary and classic artworks from talented artists around the world.">
+    <meta name="keywords" content="Art Gallery, Fine Art, Contemporary Art, Paintings, Sculptures, Exhibitions">
+    <meta name="author" content="Art Gallery">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Art Gallery | Discover Inspiring Artworks</title>
+
+
+    
+</head>
+
+<body style="background-color: #c7c1c1;">
+
+
+    <header class="site-header">
+        <nav class="nav-links">
+            <a href="Task1.html">Home</a> |
+            <a href="login.html">Login</a> |
+            <a href="Feedback.html">Feedback</a> |
+            <a href="About.html">About</a>
+        </nav>
+    </header>
+
+    <section id="Home" style="text-align:center;">
+        <h1 class="Web">Welcome to Our Art Gallery</h1>
+
+        <p>
+            Welcome to our art gallery, a space dedicated to showcasing inspiring artworks from emerging and established
+            artists.
+            Our collection features a diverse range of styles, from contemporary and abstract pieces to classic and
+            traditional art.
+            Explore our exhibitions and experience the beauty, creativity, and stories behind every artwork.
+        </p>
+
+        <div class="img-gallery">
+            <img src="image1.jfif" alt="Lion Exhibition" width="200" height="200">
+            <br>
+            <img src="image2.jfif" alt="Contemporary Art Piece" width="200" height="200">
+        </div>
+    </section>
+
+
+    <section id="AboutSection" class="section-box" style="text-align:center;">
+        <h2>About Us</h2>
+        <p>
+            Our Art Gallery was established with the vision of promoting creativity and artistic expression.
+            We provide a platform for emerging and established artists to showcase their work to a global audience.
+        </p>
+
+        <p>
+            The gallery features a diverse collection of artworks including paintings, sculptures, and contemporary art.
+            We regularly organize exhibitions to connect artists with art lovers and collectors.
+        </p>
+
+        <p>
+            Our mission is to inspire, educate, and engage people through the power of art.
+        </p>
+    </section>
+
+
+    <section id="loginSection" class="section-box" style="text-align: center; margin-top: 30px;">
+        <h2>User Login</h2>
+        <form id="loginForm" action="Task1.html" method="post" onsubmit="alert('Login Successfully!')">
+            <label>Name</label><br>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <br>
+            <label>Password</label><br>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+        <p>
+            Don't have an account?
+            <a href="signup.html">Sign up here</a>
+        </p>
+
+    </section>
+
+    <section id="signupSection" class="section-box" style="text-align: center; margin-top: 30px;">
+        <h2>User SignUp</h2>
+        <form id="SignupForm" action="Task1.html" method="post" onsubmit="alert('Signup Successfully!')">
+            <label>Name</label><br>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <br>
+            <label>Password</label><br>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <br>
+            <label>Email</label><br>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <br>
+            <button type="submit">Signup</button>
+        </form>
+        <p>
+            Do you already have an account?
+            <a href="login.html">Login here</a>
+        </p>
+
+    </section>
+
+    <section id="FeedbackSection" class="section-box" style="text-align: center; margin-top: 30px;">
+        <h2>Feedback</h2>
+        <form id="Feedback" action="Task1.html" method="post" onsubmit="alert('Feedback Submitted Successfully!')">
+            <label>Name</label><br>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <br>
+            <label>Email</label><br>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <br>
+            <label>Feedback</label><br>
+            <textarea id="feedback" name="feedback" placeholder="Your feedback here..." required></textarea>
+            <br>
+            <button type="submit"><b>Submit Feedback</b></button>
+        </form>
+
+    </section>
+
+    <footer class="site-footer">
+        <p>2026 Art Gallery. All rights reserved.</p>
+        <a href="mailto:info@artgallery.com">Contact Us</a>
+        <a href="https://www.facebook.com/artgallery" target="_blank">Facebook</a>
+        <a href="https://www.instagram.com/artgallery" target="_blank">Instagram</a>
+        <a href="https://www.twitter.com/artgallery" target="_blank">Twitter</a>
+        <a href="https://www.artgallery.com" target="_blank">Website</a>
+    </footer>
+</body>
+
+</html>

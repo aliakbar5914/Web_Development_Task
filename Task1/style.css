@@ -1,0 +1,151 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.site-header {
+    background-color: #808080;
+    padding: 20px;
+    text-align: center;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #000;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.nav-links a:visited {
+    color: darkblue;
+}
+
+.nav-links a:active {
+    color: red;
+}
+
+
+.img-gallery {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.img-gallery img {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+.img-gallery img:hover {
+    border-color: #777;
+}
+
+.site-footer {
+    background-color: #808080;
+    padding: 10px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.site-footer a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+.site-footer a:visited {
+    color: darkblue;
+}
+
+.site-footer a:active {
+    color: red;
+}
+
+.section-box {
+    border: 1px solid #999;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #e6e0e0;
+}
+
+.section-box h2 {
+    color: #0f0505;
+
+}
+
+.section-box p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.section-box form {
+    margin-top: 15px;
+}
+
+.section-box label {
+    font-weight: bold;
+}
+
+.section-box input,
+.section-box textarea {
+    width: 80%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.section-box textarea {
+    height: 100px;
+    resize: none;
+}
+
+.section-box button {
+    padding: 10px 20px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section-box button:hover {
+    background-color: #333;
+}
+
+
+@media (max-width: 600px) {
+    .img-gallery {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .img-gallery img {
+        width: 80%;
+        height: auto;
+    }
+
+    .section-box {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .section-box input,
+    .section-box textarea {
+        width: 95%;
+    }
+
+    .nav-links a {
+        display: block;
+        margin: 8px 0;
+    }
+}
