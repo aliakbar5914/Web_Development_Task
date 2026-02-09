@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Archery Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <style>
+        body {
+            margin: 0;
+            background-color: lightblue;
+            font-family: Arial, sans-serif;
+        }
+
+        #gameArea {
+            position: relative;
+            height: 90vh;
+            overflow: hidden;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            font-size: 20px;
+            left: 40%;
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        #timer {
+            position: absolute;
+            background-color: white;
+            top: 10px;
+            left: 55%;
+            font-size: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border-color: black;
+            font-style: italic;
+        }
+
+        #bow {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            font-size: 48px;
+            transform: translateY(-50%);
+        }
+
+        #arrow {
+            position: absolute;
+            left: 80px;
+            width: 60px;
+            height: 4px;
+            background-color: brown;
+            display: none;
+        }
+
+        #target {
+            position: absolute;
+            right: 50px;
+            top: 100px;
+            width: 60px;
+            height: 60px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        #GameOver {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid black;
+            display: none;
+        }
+
+        #restart {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: lightgrey;
+            border-radius: 5px;
+        }
+        #finalScore {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        #restart:hover {
+            border-color: rgb(212, 78, 15);
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="score">Score: 0</div>
+    <div id="timer">Time: 30</div>
+    <div id="gameArea">
+        <div id="bow">🏹</div>
+        <div id="arrow"></div>
+        <div id="target"></div>
+        <div id="GameOver"><b>Game Over</b><br>
+            <span id="finalScore"></span><br>
+            <button id="restart"><b><i>Restart</i></b></button>
+        </div>
+    </div>
+
+
+    <script>
+        let score = 0;
+        let timeLeft = 30;
+        let gameover = false;
+        let arrowActive = false;
+        let targetspeed = 1000;
+
+        const arrow = document.getElementById("arrow");
+        const target = document.getElementById("target");
+        const scoreBox = document.getElementById("score");
+        const timerBox = document.getElementById("timer");
+
+        function moveTarget() {
+            if (gameover) return;
+            $(target).animate(
+                { top: Math.random() * 400 + "px" },
+                targetspeed,
+                moveTarget
+            );
+        }
+        function startTimer() {
+            const timeInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timeInterval);
+                    endGame();
+                } else {
+                    timeLeft--;
+                    timerBox.textContent = "Time: " + timeLeft;
+                }
+            }, 1000);
+        }
+
+        function setFinalScore() {
+            document.getElementById("finalScore").innerHTML = "<b>Your Score: " + score + "</b>";
+        }
+
+        function updateScore() {
+            score++;
+            scoreBox.textContent = "Score: " + score;
+            increaseDifficulty();
+        }
+        function increaseDifficulty() {
+            if (targetspeed > 600) {
+                targetspeed -= 100;
+            }
+            let newSize = Math.max(30, 60 - score * 3);
+            $("#target").css({
+                width: newSize + "px",
+                height: newSize + "px"
+            });
+        }
+
+
+        document.addEventListener("click", (event) => {
+            if (gameover || arrowActive) return;
+            if (event.target.id === "target") return;
+
+            arrowActive = true;
+            let targetTop = $("#target").position().top + $("#target").height() / 2;
+
+            $("#arrow").css({ top: targetTop + "px", left: "80px" })
+                .show()
+                .animate(
+                    { left: "100%" }, 600, () => {
+                        isHit();
+                        $("#arrow").hide();
+                        arrowActive = false;
+                    });
+        });
+
+        function isHit() {
+            let arrowpos = $("#arrow").offset();
+            let targetpos = $("#target").offset();
+
+            if (arrowpos.left + arrow.offsetWidth >= targetpos.left &&
+                arrowpos.top >= targetpos.top &&
+                arrowpos.top <= targetpos.top + target.offsetHeight) {
+                updateScore();
+            }
+        }
+
+        function endGame() {
+            gameover = true;
+            $("#target").stop();
+            setFinalScore();
+            $("#GameOver").show();
+        }
+
+        document.getElementById("restart").addEventListener("click", () => {
+
+            location.reload();
+
+        });
+        moveTarget();
+        startTimer();
+
+    </script>
+</body>
+
+</html>

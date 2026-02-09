@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .outerdiv {
+            background-color: lightgrey;
+            border: 2px solid black;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+        }
+
+        .innerdiv {
+            width: 150px;
+            height: 150px;
+            background-color: brown;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 100px;
+            position: relative;
+        }
+
+        .start-button {
+            position: absolute;
+            bottom: 20px;
+            padding: 5px 5px;
+            font-size: 16px;
+
+        }
+        .start-button:hover {
+            border-color: rgb(65, 67, 68);
+            cursor: pointer;
+        }
+        .moving {
+            animation: moveForwardBackward 2s infinite;
+        }
+
+        @keyframes moveForwardBackward {
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(100px);
+            }
+            50% {
+                transform: translateX(0);
+            }
+            75% {
+                transform: translateX(-100px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+    </style>
+    <script>
+        function toggleMovement() {
+            const innerDiv = document.querySelector('.innerdiv');
+            innerDiv.classList.toggle('moving');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="outerdiv">
+        <div class="innerdiv">
+
+        </div>
+
+       <button class="start-button" onclick="toggleMovement()"><b>Start</b></button>
+    </div>
+
+</body>
+
+</html>
