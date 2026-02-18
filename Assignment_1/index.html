@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #242436, #182147);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #b9beda;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            margin: 0 auto;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .left-panel {
+            flex: 0 0 230px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .box {
+            background: linear-gradient(135deg, #101625, #55586e);
+            color: #b9beda;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 14px;
+        }
+
+        .box-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .filter_buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .filter-btn {
+            background: #55586e;
+            color: #eaebec;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 7px 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .filter-btn:hover {
+            background: #9494a3;
+        }
+
+        .filter-btn.active {
+            background: #4a6cf7;
+            color: #fff;
+            border-color: #4a6cf7;
+        }
+
+        .slider-row {
+            margin-bottom: 14px;
+        }
+
+        .slider-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: bold;
+            color: #b9beda;
+            margin-bottom: 4px;
+        }
+
+        .slider-row span {
+            font-size: 13px;
+            font-weight: bold;
+            color: #b9beda;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+
+        .rotate-flip-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .rfp-btn {
+            background: #55586e;
+            color: #fafaf9;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 5px 0;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .rfp-btn:hover {
+            background: #9494a3;
+        }
+
+        .undo-redo {
+            display: flex;
+            gap: 15px;
+        }
+
+        .ur-btn {
+            flex: 1;
+            padding: 10px 30px;
+            border: 1px solid #bbb;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            gap: 8px;
+
+        }
+
+        .ur-btn:hover:not(:disabled) {
+            background: #6e6c6c;
+
+        }
+
+        .ur-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #fff;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .reset-btn:hover {
+            background-color: #6e6c6c;
+        }
+
+        .history-panel {
+            background: linear-gradient(135deg, #101625, #55586e);
+            color: #b9beda;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 14px;
+        }
+
+        .history-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .area-editor {
+            width: 800px;
+            height: 457px;
+            background: #434353;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #placeholder {
+            color: #b9beda;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #preview-img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .bottom-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .act-btn {
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .act-btn.choose {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000000;
+        }
+
+        .act-btn.save {
+            background-color: #274ee9;
+            color: #000;
+            border: 1px solid #000000;
+        }
+
+        .act-btn:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 680px) {
+            .wrapper {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                flex: unset;
+                width: 100%;
+            }
+
+            .bottom-row {
+                justify-content: center;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Photo Editor</h1>
+    <div class="container">
+        <div class="left-panel">
+            <div class="box">
+                <div class="box-title">Filters</div>
+                <div class="filter_buttons">
+                    <button id="brightness-btn" class="filter-btn active"
+                        onclick="selectFilter('brightness')">Brightness</button>
+                    <button id="saturation-btn" class="filter-btn"
+                        onclick="selectFilter('saturation')">Saturation</button>
+                    <button id="invert-btn" class="filter-btn" onclick="selectFilter('invert')">Invert</button>
+                    <button id="grayscale-btn" class="filter-btn" onclick="selectFilter('grayscale')">Grayscale</button>
+                    <button id="sepia-btn" class="filter-btn" onclick="selectFilter('sepia')">Sepia</button>
+                    <button id="blur-btn" class="filter-btn" onclick="selectFilter('blur')">Blur</button>
+
+
+                </div>
+                <div class="slider-row">
+                    <div class="slider-top">
+                        <span id="filter-name">Brightness</span>
+                        <span id="filter-value">100%</span>
+                    </div>
+                    <input type="range" id="filter-slider" min="0" max="200" value="100" oninput="onFilterChange()">
+                </div>
+
+
+                <div class="box-title">Rotate & Flip</div>
+                <div class="rotate-flip-buttons">
+                    <button id="rotate-left-btn" class="rfp-btn" onclick="doRotateLeft()">↶</button>
+                    <button id="rotate-right-btn" class="rfp-btn" onclick="doRotateRight()">↷</button>
+                    <button id="flip-horizontal-btn" class="rfp-btn" onclick="doFlipHorizontal()">↔</button>
+                    <button id="flip-vertical-btn" class="rfp-btn" onclick="doFlipVertical()">↕</button>
+                </div>
+
+                <div class="slide-row">
+                    <div class="slider-top">
+                        <span id="filter-name">Rotate</span>
+                        <span id="filter-value">0°</span>
+                    </div>
+                    <input type="range" id="rotate-slider" min="0" max="360" value="0" oninput="onRotateChange()">
+
+                </div>
+            </div>
+            <div class="undo-redo">
+                <button id="undo-btn" class="ur-btn" onclick="Undo()">← Undo</button>
+                <button id="redo-btn" class="ur-btn" onclick="Redo()">Redo →</button>
+            </div>
+            <button id="reset-btn" class="reset-btn" onclick="doReset()">Reset Filters</button>
+
+
+            <div class="history-panel">
+                <div class="box-title">History</div>
+
+                <ul id="history-list" class="history-list"></ul>
+
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <input type="file" id="upload-input" accept="image/*" onchange="loadimage(event)" style="display:none">
+
+            <div class="area-editor">
+                <div id="placeholder">Choose an image to edit</div>
+                <img id="preview-img" alt="preview" style="display:none">
+
+
+            </div>
+
+            <div class="bottom-row">
+                <button class="act-btn choose" onclick="document.getElementById('upload-input').click()">CHOOSE
+                    IMAGE</button>
+                <button class="act-btn save" onclick="savImage()">SAVE IMAGE</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const Step = 3;
+        let state = {
+            brightness: 100,
+            saturation: 100,
+            invert: 0,
+            grayscale: 0,
+            sepia: 0,
+            blur: 0,
+            rotate: 0,
+            flipH: false,
+            flipV: false
+        };
+
+        let activeFilter = 'brightness';
+        let imageloaded = false;
+
+        let history = [];
+        let historyPointer = -1;
+
+        function copyState(s) {
+            return {
+                brightness: s.brightness,
+                saturation: s.saturation,
+                invert: s.invert,
+                grayscale: s.grayscale,
+                sepia: s.sepia,
+                blur: s.blur,
+                rotate: s.rotate,
+                flipH: s.flipH,
+                flipV: s.flipV
+            };
+        }
+
+        function pushHistory(label) {
+            if (historyPointer != history.length - 1) {
+                history = history.slice(0, historyPointer + 1);
+            }
+            history.push({ state: copyState(state), label: label });
+            historyPointer++;
+            updateHistory();
+            updateUndoRedoButtons();
+        }
+
+
+        function Undo() {
+            if (historyPointer > 0) {
+                historyPointer--;
+                let h = history[historyPointer];
+                state = copyState(h.state);
+                applyFilters();
+                updateHistory();
+                updateUndoRedoButtons();
+            }
+        }
+
+        function Redo() {
+            if (historyPointer < history.length - 1) {
+                historyPointer++;
+                let h = history[historyPointer];
+                state = copyState(h.state);
+                applyFilters();
+                updateHistory();
+                updateUndoRedoButtons();
+            }
+        }
+
+        function restore(s) {
+            state.brightness = s.brightness;
+            state.saturation = s.saturation;
+            state.invert = s.invert;
+            state.grayscale = s.grayscale;
+            state.sepia = s.sepia;
+            state.blur = s.blur;
+            state.rotate = s.rotate;
+            state.flipH = s.flipH;
+            state.flipV = s.flipV;
+        }
+
+        function updateHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            history.forEach((h, index) => {
+                const li = document.createElement('li');
+                li.textContent = h.label;
+                if (index === historyPointer) {
+                    li.style.fontWeight = 'bold';
+                }
+                historyList.appendChild(li);
+            });
+        }
+        function updateUndoRedoButtons() {
+            document.getElementById('undo-btn').disabled = historyPointer <= 0;
+            document.getElementById('redo-btn').disabled = historyPointer >= history.length - 1;
+        }
+        function jump(i) {
+            historyPointer = i;
+            let h = history[historyPointer];
+            state = copyState(h.state);
+            applyFilters();
+            updateHistory();
+            updateUndoRedoButtons();
+
+        }
+
+        function drawHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            history.forEach((h, index) => {
+                const li = document.createElement('li');
+                li.textContent = h.label;
+                if (index === historyPointer) {
+                    li.style.fontWeight = 'bold';
+                }
+                li.addEventListener('click', () => {
+                    jump(index);
+                });
+                historyList.appendChild(li);
+            });
+        }
+
+        function selectFilter(filter) {
+            activeFilter = filter;
+            let slider = document.getElementById('filter-slider');
+            document.getElementById('filter-name').textContent = filter.charAt(0).toUpperCase() + filter.slice(1);
+
+            if (filter === 'blur') {
+                slider.min = 0;
+                slider.max = 20;
+                slider.step = 1;
+                slider.value = state.blur;
+                document.getElementById('filter-value').textContent = state.blur + 'px';
+            } else if (filter === 'brightness' || filter === 'saturation') {
+                slider.min = 0;
+                slider.max = 200;
+                slider.step = Step;
+                slider.value = state[filter];
+                document.getElementById('filter-value').textContent = state[filter] + '%';
+            } else {
+                slider.min = 0;
+                slider.max = 100;
+                slider.step = Step;
+                slider.value = state[filter];
+                document.getElementById('filter-value').textContent = state[filter] + '%';
+            }
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.id.startsWith(filter));
+            });
+        }
+
+        function syncfilter() {
+            let slider = document.getElementById('filter-slider');
+            let name = activeFilter;
+
+            slider.step = Step;
+            document.getElementById('lbl-filter').textContent =
+                name.charAt(0).toUpperCase() + name.slice(1);
+
+            if (name === 'blur') {
+                slider.min = 0;
+                slider.max = 20;
+                slider.value = state.blur;
+                document.getElementById('lbl-value').textContent = state.blur + 'px';
+
+            } else if (name === 'brightness' || name === 'saturation') {
+                slider.min = 0;
+                slider.max = 200;
+                slider.value = state[name];
+                document.getElementById('lbl-value').textContent = state[name] + '%';
+
+            } else {
+                // inversion, grayscale, sepia
+                slider.min = 0;
+                slider.max = 100;
+                slider.value = state[name];
+                document.getElementById('lbl-value').textContent = state[name] + '%';
+            }
+        }
+
+        function onFilterChange() {
+            let slider = document.getElementById('filter-slider');
+            let val = parseFloat(slider.value);
+            state[activeFilter] = val;
+
+            let display = activeFilter === 'blur' ? val + 'px' : val + '%';
+            document.getElementById('filter-value').textContent = display;
+
+            applyFilters();
+            pushHistory(activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1) + ': ' + display);
+        }
+        function applyFilters() {
+            let img = document.getElementById('preview-img');
+            if (!img.src) return;
+            img.style.filter =
+                'brightness(' + state.brightness + '%) ' +
+                'saturate(' + state.saturation + '%) ' +
+                'invert(' + state.invert + '%) ' +
+                'grayscale(' + state.grayscale + '%) ' +
+                'sepia(' + state.sepia + '%) ' +
+                'blur(' + state.blur + 'px)';
+            let sx = state.flipH ? -1 : 1;
+            let sy = state.flipV ? -1 : 1;
+            img.style.transform =
+                'rotate(' + state.rotate + 'deg) scale(' + sx + ',' + sy + ')';
+        }
+        function doRotateLeft() {
+            state.rotate = (state.rotate - 90 + 360) % 360;
+            document.getElementById('rotate-slider').value = state.rotate;
+            applyFilters();
+            pushHistory('Rotate: ' + state.rotate + '°');
+        }
+        function doRotateRight() {
+            state.rotate = (state.rotate + 90) % 360;
+            document.getElementById('rotate-slider').value = state.rotate;
+            applyFilters();
+            pushHistory('Rotate: ' + state.rotate + '°');
+        }
+        function doFlipHorizontal() {
+            state.flipH = !state.flipH;
+            applyFilters();
+            pushHistory('Flip Horizontal: ' + (state.flipH ? 'On' : 'Off'));
+        }
+        function doFlipVertical() {
+            state.flipV = !state.flipV;
+            applyFilters();
+            pushHistory('Flip Vertical: ' + (state.flipV ? 'On' : 'Off'));
+        }
+        function onRotateChange() {
+            let slider = document.getElementById('rotate-slider');
+            state.rotate = parseFloat(slider.value);
+            document.querySelectorAll('.slide-row .slider-top span:last-child')[0].textContent = state.rotate + '°';
+            applyFilters();
+            pushHistory('Rotate: ' + state.rotate + '°');
+        }
+        function loadimage(event) {
+            document.querySelectorAll('input[type="range"]').forEach(el => {
+                el.disabled = false;
+            });
+
+            let file = event.target.files[0];
+            if (!file) return;
+            let img = document.getElementById('preview-img');
+            img.src = URL.createObjectURL(file);
+            img.onload = function () {
+                URL.revokeObjectURL(img.src);
+            }
+            document.getElementById('placeholder').style.display = 'none';
+            img.style.display = 'block';
+            state.brightness = 100;
+            state.saturation = 100;
+            state.invert = 0;
+            state.grayscale = 0;
+            state.sepia = 0;
+            state.blur = 0;
+            state.rotate = 0;
+            state.flipH = false;
+            state.flipV = false;
+
+            selectFilter('brightness');
+            applyFilters()
+            pushHistory('Load Image');
+        }
+
+        function doReset() {
+            state.brightness = 100;
+            state.saturation = 100;
+            state.invert = 0;
+            state.grayscale = 0;
+            state.sepia = 0;
+            state.blur = 0;
+            state.rotate = 0;
+            state.flipH = false;
+            state.flipV = false;
+            document.getElementById('rotate-slider').value = 0;
+            selectFilter('brightness');
+            applyFilters();
+            history = [];
+            historyPointer = -1;
+            drawHistory();
+            updateUndoRedoButtons();
+        }
+        function savImage() {
+            let img = document.getElementById('preview-img');
+            if (!img.src) {
+                alert('Please choose an image first!');
+                return;
+            }
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            ctx.filter = img.style.filter;
+            let rad = state.rotate * Math.PI / 180;
+            let sx = state.flipH ? -1 : 1;
+            let sy = state.flipV ? -1 : 1;
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(rad);
+            ctx.scale(sx, sy);
+            ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
+            let link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        window.onload = function () {
+            document.querySelectorAll('input[type="range"]').forEach(el => {
+                el.disabled = true;
+            });
+
+            drawHistory();
+            updateUndoRedoButtons();
+        };
+
+
+    </script>
+
+</body>
+
+</html>
