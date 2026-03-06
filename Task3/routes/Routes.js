@@ -26,7 +26,18 @@ router.post('/login', async (req, res) => {
         res.send('Invalid username or password');
     }
 });
+function authMiddleware(req, res, next) {
+    if (req.session && req.session.user) {
+        next();
+    }
+    else {
+        res.send('Login First');
+    }
+}
 
+router.get('/dashboard', authMiddleware, (req, res) => {
+    res.send(`Welcome ${req.session.user}`);
+});
 
 
 module.exports = router;
